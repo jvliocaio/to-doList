@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskCollection;
+use App\Http\Resources\TaskResource;
 use App\Models\Tasks;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,7 @@ class TasksController extends Controller
     public function index()
     {
         $tasks = Tasks::all();
-        return response()->json($tasks, 200);
+        return response()->json(new TaskCollection($tasks), 200);
     }
 
     /**
@@ -32,7 +34,7 @@ class TasksController extends Controller
         $task->list_id = $request->list_id;
         $task->done = false;
         $task->save();
-        return response()->json($task, 201);
+        return response()->json(new TaskResource($task), 201);
     }
 
     /**
@@ -43,7 +45,7 @@ class TasksController extends Controller
      */
     public function show(Tasks $task)
     {
-        return response()->json($task, 200);
+        return response()->json( new TaskResource($task), 200);
     }
 
     /**
@@ -59,7 +61,7 @@ class TasksController extends Controller
         $task->list_id = $request->list_id;
         $task->done = $request->done;
         $task->save();
-        return response()->json($task, 202);
+        return response()->json(new TaskResource($task), 202);
     }
 
     /**

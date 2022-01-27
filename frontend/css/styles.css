@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+:root{
+    --bg-color: #515751;
+    --primary-color: #F5F9E9;
+}
+
+body {
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+
+}
+body h1{
+    color:  var(--primary-color);
+    text-align: center;
+    margin: 2px;
+}
+
+main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+main h3{
+    text-align: center;
+}
+
+
+.tasksList{
+    width: 30%;
+    height: 50vh;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.task{
+    display: flex;
+    word-break: break-all;
+    justify-content: center;
+    align-items: center;
+}
+.task label{
+    padding:15px ;
+}
+.task input[type=checkbox]{
+    background-color: black;
+}
+
+footer{
+    color: var(--primary-color);
+    text-align: center;
+}

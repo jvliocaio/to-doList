@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TasksListCollection;
+use App\Http\Resources\TasksListResource;
 use App\Models\TasksList;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,8 @@ class TasksListController extends Controller
      */
     public function index()
     {
-        
+            $tasksList = TasksList::all();
+            return response()->json(new TasksListCollection($tasksList), 200);
     }
 
     /**
@@ -26,7 +29,13 @@ class TasksListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tasksList = new TasksList();
+        $tasksList->name = $request->name;
+        $tasksList->description = $request->description;
+        $tasksList->save();
+        return response()->json(new TasksListResource($tasksList), 201);
+
+
     }
 
     /**
@@ -37,7 +46,7 @@ class TasksListController extends Controller
      */
     public function show(TasksList $tasksList)
     {
-        // 
+        return response()->json( new TasksListResource($tasksList), 200);
     }
 
     /**
@@ -49,7 +58,11 @@ class TasksListController extends Controller
      */
     public function update(Request $request, TasksList $tasksList)
     {
-        //
+        $tasksList->name = $request->name;
+        $tasksList->name = $request->description;
+        $tasksList->save();
+        return response()->json(new TasksListResource($tasksList), 202);
+
     }
 
     /**
@@ -60,6 +73,7 @@ class TasksListController extends Controller
      */
     public function destroy(TasksList $tasksList)
     {
-        //
+        $tasksList->delete();
+        return response()->json([], 204);
     }
 }
