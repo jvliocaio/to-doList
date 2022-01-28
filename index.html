@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
-    <script src="js/script.js" defer></script>
+    <script src="frontend/js/index.js" defer></script>
 
     <title> to-Do LIST</title>
 </head>
@@ -19,17 +19,17 @@
     <header> <h1> TO-DO LIST </h1>
     </header>
     
-    <main>
+    <main id="main">
 
-        <article class="tasksList">
-            <h3> Nome lista </h3>
+        <article class="tasksList" id="tasksList">
+            
+            <h3 id="listName"></h3>
 
-            <div class="task">
+            <div class="task" id="task">
                 <input type="checkbox" name="checkbox" id="checkbox"> 
-                <label for="checkbox"> Tarefa 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </label>
+                <label for="checkbox" id="label"></label>
                 <span class="material-icons">edit</span>
                 <span class="material-icons">delete</span>
-
             </div>
         </article>
 
