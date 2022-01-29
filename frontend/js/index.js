@@ -39,10 +39,10 @@ async function print (){
         result.forEach((tasksData, index) =>{
             container += `
             <div class="task" id="task">
-                <input type="checkbox" name="checkbox" id="checkbox"> 
-                <label for="checkbox" id="label"> ${tasksData.description} </label>
+                <input type="checkbox" class="checkbox-round" name="checkbox" id="checkbox"> 
+                <label for="checkbox" class="strikethrough" id="label"> ${tasksData.description} </label>
                 <span class="material-icons">edit</span>
-                <span class="material-icons">delete</span>
+                <span class="material-icons" data-remove="${tasksData.id}" >delete</span>
             </div>
 
         `
@@ -52,7 +52,28 @@ async function print (){
 
     }
 
+
     main.innerHTML = container
 }
+
+function destroyTask(taskId){
+
+   fetch('http://localhost:8000/api/tasks/' + taskId, {
+       method: 'DELETE'
+   })
+    .then(res => print(tasksList)) 
+    
+}
+
+document.body.addEventListener('click', function (event) {
+event.preventDefault()
+    
+    const taskId = event.target.getAttribute('data-remove')    
+
+    if(taskId){
+        destroyTask(taskId)
+    }
+})
+
 
 print(tasksList)
