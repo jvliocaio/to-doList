@@ -21,12 +21,22 @@ body {
     min-height: 100vh;
 
 }
+.todoTitle{
+    color:  var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+#material-icons-add{
+   font-size: 35px; 
+   cursor: pointer;
+}
 body h1{
     color:  var(--primary-color);
     text-align: center;
     margin: 2px;
 }
-
 
 main{
     display: flex;
@@ -35,9 +45,6 @@ main{
     flex-wrap: wrap;
     gap: 15px 1px;
 }
-
-
-
 .tasksList{
     width: 30%;
     min-height: 50vh;
@@ -47,11 +54,31 @@ main{
     box-shadow: 0px 0px 52px 5px rgba(0,0,0,0.49);
     margin: 5px;
 }
+.tasksList h3{
+    text-transform: uppercase;
+}
+.tasksList span{
+    cursor: pointer;
+}
 .headerList{
     display: flex;
     justify-content: space-between;
 }
-
+.dropdown-list{
+    position: relative;
+    display: inline-block;
+    
+}
+.dropdown-content{
+    display: none;
+    position: absolute;
+    min-width: 90px;
+    background-color: var(--primary-color);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    z-index: 1;
+}
 .task{
     display: flex;
     word-break: break-all;

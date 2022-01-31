@@ -25,7 +25,20 @@ async function print (){
         
             <div class="headerList">
             <h3 id="listName"> ${tasksListData.name} </h3> 
-            <span class="material-icons" data-add="${tasksListData.id}">add</span>
+                <div class="headerList-span"> 
+                    <span class="material-icons" data-add="${tasksListData.id}">add</span>
+
+                    <div class="dropdown-list">
+                        <span class="material-icons" id="data-optionsList" data-optionsList="${tasksListData.id}">more_vert</span> 
+
+                        <div class="dropdown-content" data-contentList="">
+                            <span class="material-icons" id="data-editList" onclick="myFun()">edit</span>
+                            <span class="material-icons" id="data-deleteList">delete</span>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
             
                 ${component(tasksListData.id)}
@@ -65,6 +78,8 @@ async function print (){
 
     main.innerHTML = container
 }
+
+/* Tasks HTTP requests */
 
 // Delete task
 function destroyTask(taskId){
@@ -125,7 +140,84 @@ document.body.addEventListener('click', function (event) {
             } 
     })
 
+    // Create task
+    function createTask(tasksListId){
 
+        fetch('http://localhost:8000/api/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json' // Indicates the content 
+               },
+            body: JSON.stringify(
+                {
+                    "description": newTask,
+                    "list_id": tasksListId
+                }
+            ) // We send data in JSON format
+              
+        })
+         .then(res => print(tasksList)) 
+         
+     }
 
+     document.body.addEventListener('click', function (event) {
+        event.preventDefault()
+            const tasksListId = event.target.getAttribute('data-add')
+                          
+            if(tasksListId){
+                if (newTask = window.prompt("Descreva sua terefa:")) {
+                        createTask(tasksListId, newTask)
+                }
+            }
+        })
 
+ /* TasksList HTTP requests */
+    function createTasksList(TasksListName, TasksListDesc){
+
+        fetch('http://localhost:8000/api/tasksList', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json' // Indicates the content 
+               },
+            body: JSON.stringify(
+                {
+                    "name": TasksListName,
+                    "description": TasksListDesc
+                }
+            ) // We send data in JSON format
+              
+        })
+         .then(res => print(tasksList)) 
+         
+     }
+
+     document.querySelector('#material-icons-add').addEventListener('click', function (event) {
+        event.preventDefault()
+            
+           if(TasksListName = window.prompt("Qual nome da sua lista?")){
+               if(TasksListDesc = window.prompt("Descreva sua lista")){
+                   createTasksList(TasksListName, TasksListDesc)
+               }
+               
+           }
+           
+
+        })
+
+/*         document.body.addEventListener('click', function (event) {
+            event.preventDefault()
+                const options = event.target.getAttribute('data-optionsList')
+                const content = event.target.getAttribute('data-contentList')
+
+                content.style.display ="none"  
+
+                if (options) {
+                    content.style.display = "block"    
+                }
+                
+                            
+            
+            }) */
+
+// Chama a function que renderiza o corpo da pagina
 print(tasksList)
