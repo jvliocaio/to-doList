@@ -59,7 +59,7 @@ class TasksListController extends Controller
     public function update(Request $request, TasksList $tasksList)
     {
         $tasksList->name = $request->name;
-        $tasksList->name = $request->description;
+        $tasksList->description = $request->description;
         $tasksList->save();
         return response()->json(new TasksListResource($tasksList), 202);
 

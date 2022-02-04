@@ -13,8 +13,7 @@
 }
 
 body {
-
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1920' height='1080' preserveAspectRatio='none' viewBox='0 0 1920 1080'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1008%26quot%3b)' fill='none'%3e%3crect width='1920' height='1080' x='0' y='0' fill='%230e2a47'%3e%3c/rect%3e%3cpath d='M960 1410.94C1180.46 1398.09 1356.27 1248.56 1511.28 1091.28 1664.75 935.56 1812.18 758.55 1818.36 540 1824.69 316.62 1701.91 114.12 1543.34-43.34 1385.37-200.18 1182.6-312.92 960-312.28 737.98-311.63 539.96-193.96 380.06-39.94 216.52 117.58 82.6 313.08 75.12 540 67.4 773.41 174.02 995.7 340.49 1159.51 505.59 1322.03 728.73 1424.41 960 1410.94' fill='%231c538e'%3e%3c/path%3e%3cpath d='M960 1103.55C1102.65 1095.24 1216.41 998.48 1316.71 896.71 1416.02 795.95 1511.41 681.42 1515.41 540 1519.5 395.46 1440.06 264.43 1337.45 162.55 1235.24 61.06 1104.03-11.89 960-11.47 816.34-11.06 688.21 65.09 584.75 164.75 478.93 266.67 392.27 393.17 387.43 540 382.43 691.03 451.43 834.87 559.14 940.86 665.97 1046.02 810.36 1112.26 960 1103.55' fill='%232774c6'%3e%3c/path%3e%3cpath d='M960 796.16C1024.84 792.38 1076.55 748.4 1122.14 702.14 1167.28 656.34 1210.64 604.28 1212.46 540 1214.32 474.3 1178.21 414.74 1131.57 368.43 1085.11 322.3 1025.47 289.14 960 289.33 894.7 289.52 836.46 324.13 789.43 369.43 741.33 415.76 701.94 473.26 699.74 540 697.47 608.65 728.83 674.03 777.79 722.21 826.35 770.01 891.98 800.12 960 796.16' fill='%23488fdb'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1008'%3e%3crect width='1920' height='1080' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+    background-color: #003F7F;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -41,17 +40,17 @@ body h1{
 main{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     flex-wrap: wrap;
-    gap: 15px 1px;
+    justify-content: center;
 }
 .tasksList{
-    width: 30%;
+    flex-grow: 4;
+    max-width: 24%;
     min-height: 50vh;
     background-color: var(--primary-color);
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0px 0px 52px 5px rgba(0,0,0,0.49);
+    box-shadow: 0px 0px 52px 5px rgba(0,0,0,0,0.4);
     margin: 5px;
 }
 .tasksList h3{
@@ -78,6 +77,9 @@ main{
     border-radius: 10px;
     padding: 12px 16px;
     z-index: 1;
+}
+.dropdown-list:hover .dropdown-content{
+    display: block;
 }
 .task{
     display: flex;
@@ -106,8 +108,7 @@ main{
 input[type=checkbox]:checked + label.strikethrough{
     text-decoration: line-through;
     font-weight: bold;
-  }
-
+}
 footer{
     color: var(--primary-color);
     text-align: center;

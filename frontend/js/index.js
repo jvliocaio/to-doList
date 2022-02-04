@@ -32,8 +32,8 @@ async function print (){
                         <span class="material-icons" id="data-optionsList" data-optionsList="${tasksListData.id}">more_vert</span> 
 
                         <div class="dropdown-content" data-contentList="">
-                            <span class="material-icons" id="data-editList" onclick="myFun()">edit</span>
-                            <span class="material-icons" id="data-deleteList">delete</span>
+                            <span class="material-icons" id="data-editList" data-nameList="${tasksListData.name}" data-descList="${tasksListData.description}" data-editList="${tasksListData.id}" >edit</span>
+                            <span class="material-icons" id="data-deleteList" data-deleteList="${tasksListData.id}" >delete</span>
                         </div>
 
                     </div>
@@ -46,7 +46,7 @@ async function print (){
         </article>
 
         `
-    });
+    })
 
     // Esse "component" sao as tasks
     function component (list_id, description) {
@@ -57,12 +57,11 @@ async function print (){
             return String(item.list_id) === String(list_id) 
 
         }) 
-        console.log(result)
 
         result.forEach((tasksData, index) =>{
             container += `
-            <div class="task" id="task">
-                <input type="checkbox" class="checkbox-round" name="checkbox" id="checkbox"> 
+            <div class="task">
+                <input type="checkbox" ${tasksData.done === "true" ? "checked": ""} data-done="${tasksData.done}" data-checkbox="${tasksData.id}" data-checkboxDesc="${tasksData.description}" data-checkboxList="${tasksData.list_id}" id="checkBox" class="checkbox-round"> 
                 <label for="checkbox" class="strikethrough" id="label"> ${tasksData.description} </label>
                 <span class="material-icons" class="data-edit" id="data-edit" data-label="${tasksData.description}" data-edit="${tasksData.id}" data-list="${tasksData.list_id}" >edit</span>
                 <span class="material-icons" data-remove="${tasksData.id}" >delete</span>
@@ -92,7 +91,6 @@ function destroyTask(taskId){
 }
 
 document.body.addEventListener('click', function (event) {
-event.preventDefault()
     const taskId = event.target.getAttribute('data-remove')    
 
     if(taskId){
@@ -127,7 +125,7 @@ function updateTask(taskId, tasksListId, taskNewDesc){
  }
 
 document.body.addEventListener('click', function (event) {
-    event.preventDefault()
+
         const taskId = event.target.getAttribute('data-edit')   
         const taskDesc = event.target.getAttribute('data-label')   
         const tasksListId = event.target.getAttribute('data-list')
@@ -161,7 +159,7 @@ document.body.addEventListener('click', function (event) {
      }
 
      document.body.addEventListener('click', function (event) {
-        event.preventDefault()
+    
             const tasksListId = event.target.getAttribute('data-add')
                           
             if(tasksListId){
@@ -172,6 +170,8 @@ document.body.addEventListener('click', function (event) {
         })
 
  /* TasksList HTTP requests */
+
+ // Create taskList
     function createTasksList(TasksListName, TasksListDesc){
 
         fetch('http://localhost:8000/api/tasksList', {
@@ -192,32 +192,122 @@ document.body.addEventListener('click', function (event) {
      }
 
      document.querySelector('#material-icons-add').addEventListener('click', function (event) {
-        event.preventDefault()
+    
             
            if(TasksListName = window.prompt("Qual nome da sua lista?")){
                if(TasksListDesc = window.prompt("Descreva sua lista")){
                    createTasksList(TasksListName, TasksListDesc)
-               }
-               
+               }   
            }
-           
-
         })
 
-/*         document.body.addEventListener('click', function (event) {
-            event.preventDefault()
-                const options = event.target.getAttribute('data-optionsList')
-                const content = event.target.getAttribute('data-contentList')
+// Update taskList
+function updateTasksList(tasksListId, tasksListNewName, tasksListNewDesc){
 
-                content.style.display ="none"  
+    fetch('http://localhost:8000/api/tasksList/' + tasksListId,{
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json' // Indicates the content 
+           },
+        body: JSON.stringify(
+            {
+                "name": tasksListNewName,
+                "description": tasksListNewDesc
+            }
+        ) // We send data in JSON format
+          
+    })
+     .then(res => print(tasksList)) 
+     
+ }
 
-                if (options) {
-                    content.style.display = "block"    
-                }
-                
-                            
+ document.body.addEventListener('click', function (event) {
+
+   
+    const tasksListId = event.target.getAttribute('data-editList')
+    const tasksListName = event.target.getAttribute('data-nameList')
+    const tasksListDesc = event.target.getAttribute('data-descList')
+
+    if(tasksListId){
+        if(tasksListNewName = window.prompt('Modifique o nome da sua lista:', tasksListName)){
+            if(tasksListNewDesc = window.prompt('Modifique a descricao da sua lista:', tasksListDesc)){
+                updateTasksList(tasksListId, tasksListNewName, tasksListNewDesc)
+            }
+        }
+    }
+
+
             
-            }) */
+ })
+
+ // Delete list
+
+ function destroyTasksList(tasksListId){
+
+    fetch('http://localhost:8000/api/tasksList/' + tasksListId, {
+        method: 'DELETE'
+    })
+     .then(res => print(tasksList)) 
+     
+ }
+ 
+ document.body.addEventListener('click', function (event) {
+
+     const tasksListId = event.target.getAttribute('data-deleteList')    
+ 
+     if(tasksListId){
+         if (window.confirm("Você realmente quer deletar essa lista?")) {
+             destroyTasksList(tasksListId)
+         }
+         
+     }
+ 
+ })
+
+
+ // Done task
+
+ function tasksDone(tasksCheckId, tasksCheckDone, tasksCheckDesc, tasksCheckList){
+
+    let doneX
+
+     if(tasksCheckDone === "true"){
+        doneX = false
+    }
+    if(tasksCheckDone === "false"){
+        doneX = true
+    }
+   
+    fetch('http://localhost:8000/api/tasks/' + tasksCheckId, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json' // Indicates the content 
+           },
+        body: JSON.stringify(
+            {
+                "description": tasksCheckDesc,
+                "done": doneX,
+                "list_id": tasksCheckList
+            }
+        ) // We send data in JSON format
+          
+    })
+     .then(res => print(tasksList)) 
+  }
+     
+ 
+
+ document.body.addEventListener('click', function (event) {
+
+        const tasksCheckId = event.target.getAttribute('data-checkbox')
+        const tasksCheckDone = event.target.getAttribute('data-done')
+        const tasksCheckDesc = event.target.getAttribute('data-checkboxDesc')
+        const tasksCheckList = event.target.getAttribute('data-checkboxList')
+    
+         if (tasksCheckId) {
+            tasksDone(tasksCheckId, tasksCheckDone, tasksCheckDesc, tasksCheckList)
+        }
+    }) 
 
 // Chama a function que renderiza o corpo da pagina
 print(tasksList)
