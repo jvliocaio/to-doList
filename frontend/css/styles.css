@@ -113,3 +113,37 @@ footer{
     color: var(--primary-color);
     text-align: center;
 }
+
+
+@media (max-width: 768px) {
+    main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .tasksList{
+        min-width: 60%;
+        max-width: 60%;
+        padding: 20px;
+        margin: 5px;
+    }
+}
+
+@media (max-width: 425px) {
+.main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.tasksList{
+    min-width: 35%;
+    padding: 20px;
+    margin: 5px;
+}
+}
+
+@media (max-width: 375px) {
+
+}

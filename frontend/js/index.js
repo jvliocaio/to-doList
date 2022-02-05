@@ -61,7 +61,7 @@ async function print (){
         result.forEach((tasksData, index) =>{
             container += `
             <div class="task">
-                <input type="checkbox" ${tasksData.done === "true" ? "checked": ""} data-done="${tasksData.done}" data-checkbox="${tasksData.id}" data-checkboxDesc="${tasksData.description}" data-checkboxList="${tasksData.list_id}" id="checkBox" class="checkbox-round"> 
+                <input type="checkbox" ${tasksData.done == true ? "checked": ""} data-done="${tasksData.done}" data-checkbox="${tasksData.id}" data-checkboxDesc="${tasksData.description}" data-checkboxList="${tasksData.list_id}" id="checkBox" class="checkbox-round"> 
                 <label for="checkbox" class="strikethrough" id="label"> ${tasksData.description} </label>
                 <span class="material-icons" class="data-edit" id="data-edit" data-label="${tasksData.description}" data-edit="${tasksData.id}" data-list="${tasksData.list_id}" >edit</span>
                 <span class="material-icons" data-remove="${tasksData.id}" >delete</span>
@@ -240,14 +240,21 @@ function updateTasksList(tasksListId, tasksListNewName, tasksListNewDesc){
             
  })
 
- // Delete list
+ // Delete taskList
 
  function destroyTasksList(tasksListId){
 
     fetch('http://localhost:8000/api/tasksList/' + tasksListId, {
-        method: 'DELETE'
-    })
-     .then(res => print(tasksList)) 
+               method: 'DELETE'
+           })
+            .then(function (res){
+                if (!res.ok) {
+                    alert('Para deletar uma lista ela precisa estar vazia!')
+                }
+               print(tasksList)
+            })
+
+
      
  }
  
